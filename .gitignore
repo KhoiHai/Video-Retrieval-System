@@ -1,5 +1,5 @@
 venv/
 data/video
 data/keyframe
-models/
+models/TransNetV2
 __pycache__

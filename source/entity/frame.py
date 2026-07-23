@@ -8,7 +8,7 @@ class Frame:
         self.frame_idx = frame_idx
 
         # Frame information
-        self.CLIPembedding = None
+        self.CLIP_embedding = None        
 
     def __repr__(self):
         return f"Frame({self.frame_idx})"
