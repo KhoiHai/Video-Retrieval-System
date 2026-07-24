@@ -47,18 +47,43 @@ class SceneDetector():
         return transition_segment
 
     def __build_scene(self, video: Video, transition_segment):
-        # Initialization
         video.clear_scenes()
+
+        # Initialization
         scene_id = 0
         flag = 0
+        min_scene_frames = int(video.fps / 2)
 
         for start, end in transition_segment:
-            if (flag <= (start - 1)):
-                scene = Scene(scene_id = scene_id, start_frame_idx = flag, end_frame_idx = start - 1)
-                video.add_scene(scene)
-                scene_id += 1
+            # Initialization
+            scene_start = flag
+            scene_end = start - 1
+
+            if scene_start <= scene_end:
+                num_frames = scene_end - scene_start + 1
+                if num_frames >= min_scene_frames:
+                    video.add_scene(
+                        Scene(
+                            scene_id=scene_id,
+                            start_frame_idx=scene_start,
+                            end_frame_idx=scene_end
+                        )
+                    )
+                    scene_id += 1
             flag = end + 1
 
+        # Last scene
         if flag < video.frame_count:
-            scene = Scene(scene_id = scene_id, start_frame_idx = flag, end_frame_idx = video.frame_count - 1)
-            video.add_scene(scene)
+            # Initialization
+            scene_start = flag
+            scene_end = video.frame_count - 1
+            num_frames = scene_end - scene_start + 1
+
+            if num_frames >= min_scene_frames:
+                video.add_scene(
+                    Scene(
+                        scene_id=scene_id,
+                        start_frame_idx=scene_start,
+                        end_frame_idx=scene_end
+                    )
+                )

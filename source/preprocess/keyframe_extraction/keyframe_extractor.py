@@ -56,7 +56,7 @@ class KeyframeExtractor:
             if not ret:
                 continue
 
-            frame.clip_embedding = (
+            frame.selection_embedding = (
                 self.clip_model.encode(image)
             )
 
@@ -71,8 +71,8 @@ class KeyframeExtractor:
             current = scene.frames[i]
 
             similarity = cosine_similarity(
-                previous.clip_embedding.reshape(1, -1),
-                current.clip_embedding.reshape(1, -1)
+                previous.selection_embedding.reshape(1, -1),
+                current.selection_embedding.reshape(1, -1)
             )[0][0]
 
             if similarity >= self.similarity_threshold:
@@ -104,7 +104,7 @@ class KeyframeExtractor:
 
                 embeddings = np.stack(
                     [
-                        frame.clip_embedding
+                        frame.selection_embedding
                         for frame in segment
                     ]
                 )
