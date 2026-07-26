@@ -3,3 +3,4 @@ data/video
 data/keyframe
 TransNetV2
 __pycache__
+source/models/TransNetV2/
