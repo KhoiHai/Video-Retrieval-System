@@ -48,7 +48,7 @@ class Video:
     def num_keyframe(self):
         count = 0
         for scene in self.scenes:
-            count += scene.num_frames
+            count += scene.num_frames()
         return count
 
     def clear_scenes(self):
@@ -67,10 +67,19 @@ class Video:
         return {
             "video_id": self.video_id,
             "video_path": self.video_path,
+
             "fps": self.fps,
             "frame_count": self.frame_count,
             "keyframe_count": self.num_keyframe(),
+
             "width": self.width,
             "height": self.height,
-            "duration": self.duration
+            "duration": self.duration,
+
+            "scene_count": self.num_scene(),
+
+            "scenes": [
+                scene.to_dict()
+                for scene in self.scenes
+            ]
         }

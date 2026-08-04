@@ -34,5 +34,10 @@ class Scene:
         return {
             "scene_id": self.scene_id,
             "start_frame_idx": self.start_frame_idx,
-            "end_frame_idx": self.end_frame_idx
+            "end_frame_idx": self.end_frame_idx,
+            "num_frames": self.num_frames(),
+            "frames": [
+                frame.to_dict()
+                for frame in self.frames
+            ]
         }

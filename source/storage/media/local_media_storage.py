@@ -5,40 +5,38 @@ from source.entity.frame import Frame
 
 import os
 import cv2
+from pathlib import Path
 
 class LocalMediaStorage(MediaStorage):
 
     def __init__(self, root_dir = "data/keyframe"):
-        self.root_dir = root_dir
+        self.root_dir = Path(root_dir)
 
     def save(self, video: Video):
         print(f"[STORAGE] Saving keyframes of {video.video_id}")
 
-        # Create the output directory base on the video
-        video_dir = os.path.join(self.root_dir, video.video_id)
-        os.makedirs(video_dir, exist_ok = True)
+        # Create output directory
+        video_dir = self.root_dir / video.video_id
+        video_dir.mkdir(parents=True, exist_ok=True)
 
-        # Read the videp
         cap = cv2.VideoCapture(video.video_path)
         if not cap.isOpened():
             raise RuntimeError(
                 f"Cannot open {video.video_path}"
             )
-        
-        # Traverse through every scene and keyframe inside the video
+
         for scene in video.scenes:
             for frame in scene.frames:
-                # Read the image
+
                 image = self.__read_frame(cap, frame.frame_idx)
                 if image is None:
                     continue
 
-                # Save the image from given path
-                image_path = os.path.join(video_dir, f"frame_{frame.frame_idx:06d}.jpg")
-                cv2.imwrite(image_path, image)
+                image_path = video_dir / f"frame_{frame.frame_idx:06d}.jpg"
 
-                # Update the frame.image_uri
-                frame.set_uri(image_path)
+                # Write down path
+                cv2.imwrite(str(image_path), image)
+                frame.set_uri(image_path.as_posix())
 
         cap.release()
         print(f"[STORAGE] Finished saving {video.video_id}")

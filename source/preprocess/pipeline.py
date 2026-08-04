@@ -9,6 +9,7 @@ from source.preprocess.keyframe_extraction.keyframe_extractor import KeyframeExt
 
 # Storage
 from source.storage.media.local_media_storage import LocalMediaStorage
+from source.storage.metadata.local_metadata_storage import LocalMetadataStorage
 
 # Model 
 from source.models.TransNetV2.inference import TransNetV2
@@ -19,12 +20,12 @@ import time
 
 class PreprocessingPipeline:
 
-    def __init__(self, output_dir):
+    def __init__(self):
         self.scene_detector = SceneDetector(model = TransNetV2(), threshold = 0.75)
         self.candidate_extractor = CandidateExtractor(blur_threshold = 110, duplicate_threshold = 0.7)
         self.keyframe_extractor = KeyframeExtractor(clip_model = CLIP(), similarity_threshold = 0.83, max_frames_per_segment = 6)
-        self.output_dir = output_dir
-        self.media_storage = LocalMediaStorage(self.output_dir)
+        self.media_storage = LocalMediaStorage()
+        self.metadata_storage = LocalMetadataStorage()
 
     def run(self, video_path):
         video = Video(video_path=video_path)
@@ -43,6 +44,7 @@ class PreprocessingPipeline:
 
         start = time.perf_counter()
         self.media_storage.save(video)
+        self.metadata_storage.save(video)
         print(f"[TIME] Media Storage: {time.perf_counter() - start:.2f}s")
 
         return video

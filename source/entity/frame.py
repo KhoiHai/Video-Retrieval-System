@@ -18,3 +18,9 @@ class Frame:
 
     def set_uri(self, image_uri: str):
         self.image_uri = image_uri
+
+    def to_dict(self):
+        return {
+            "frame_idx": self.frame_idx,
+            "image_uri": self.image_uri
+        }
