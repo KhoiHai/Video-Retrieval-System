@@ -11,13 +11,17 @@ class Frame:
         # Selection embedding
         self.selection_embedding = None  
 
-        # Retrieval features      
+        # Retrieval features    
+        self.semantic_embedding = None  
 
     def __repr__(self):
         return f"Frame({self.frame_idx})"
 
     def set_uri(self, image_uri: str):
         self.image_uri = image_uri
+
+    def set_semantic_embedding(self, semantic_embedding):
+        self.semantic_embedding = semantic_embedding
 
     def to_dict(self):
         return {

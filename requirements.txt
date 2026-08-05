@@ -6,6 +6,9 @@ Pillow>=11.0
 torch>=2.7
 torchvision>=0.22
 open_clip_torch>=3.1
+transformers>=4.56
+accelerate>=1.0
+safetensors>=0.4
 
 tensorflow>=2.18
 
