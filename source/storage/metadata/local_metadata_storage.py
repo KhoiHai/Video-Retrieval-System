@@ -24,3 +24,5 @@ class LocalMetadataStorage(MetadataStorage):
                 indent=4,
                 ensure_ascii=False
             )
+
+        return output_path

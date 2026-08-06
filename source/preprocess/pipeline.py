@@ -12,6 +12,7 @@ from source.preprocess.feature_extraction.semantic_extractor import SemanticExtr
 from source.storage.media.local_media_storage import LocalMediaStorage
 from source.storage.metadata.local_metadata_storage import LocalMetadataStorage
 from source.storage.vector.local_vector_storage import LocalVectorStorage
+from source.storage.video_loader import VideoLoader
 
 # Model 
 from source.models.TransNetV2.inference import TransNetV2
@@ -33,6 +34,7 @@ class PreprocessingPipeline:
         self.vector_storage = LocalVectorStorage()
 
     def run(self, video_path):
+        '''
         video = Video(video_path=video_path)
 
         start = time.perf_counter()
@@ -49,8 +51,12 @@ class PreprocessingPipeline:
 
         start = time.perf_counter()
         self.media_storage.save(video)
-        self.metadata_storage.save(video)
+        output_path = self.metadata_storage.save(video)
         print(f"[TIME] Media Storage: {time.perf_counter() - start:.2f}s")
+        '''
+
+        video_loader = VideoLoader()
+        video = video_loader.load("data/metadata/L21_V001.json")
 
         start = time.perf_counter()
         self.feature_extractor.extract(video)
