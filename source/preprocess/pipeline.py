@@ -18,6 +18,7 @@ from source.storage.video_loader import VideoLoader
 from source.models.TransNetV2.inference import TransNetV2
 from source.models.CLIP.clip import CLIP
 from source.models.Embedding.siglip2 import SigLIP2
+from source.models.Embedding.clip import CLIPS
 
 # Stuff
 import time
